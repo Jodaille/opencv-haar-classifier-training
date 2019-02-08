@@ -9,6 +9,7 @@ import sys, os
 from os.path import basename, dirname
 
 destination="/home/jody/opencv-haar-classifier-training/positive_images/"
+destination="/home/jody/opencv-haar-classifier-training/negative_images/"
 
 # construct the argument parse and parse the arguments
 parser = argparse.ArgumentParser()
@@ -28,14 +29,19 @@ args = vars(parser.parse_args())
 print(args);
 
 print(args["width"], args["height"])
-def newImageName(image, destination_dir=destination):
+def newImageName(args, destination_dir=destination):
+	image = args["image"]
 	base = os.path.basename(image)
-	filename = os.path.splitext(base)[0]
-	newImageName = destination_dir + '/' + base
+	print(os.path.splitext(base))
+	filename  = os.path.splitext(base)[0]
+	zone = '_' + str(args["xpos"]) + 'x' + str(args["ypos"])
+	extension = os.path.splitext(base)[1]
+	#newImageName = destination_dir + '/' + base
+	newImageName = destination_dir + '/' + filename + zone + extension
 	print("newImageName", newImageName)
 	return newImageName
 
-destImgName = newImageName(args["image"])
+destImgName = newImageName(args)
 
 image = cv2.imread(args["image"])
 y=args["ypos"]
@@ -43,6 +49,7 @@ x=args["xpos"]
 h=args["height"]
 w=args["width"]
 crop = image[y:y+h, x:x+w]
+
 cv2.imwrite(destImgName, crop)
 cv2.imshow('Image', crop)
 
