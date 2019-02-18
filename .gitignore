@@ -1,0 +1,5 @@
+positive_images/*.jpg
+positive_images/*.png
+negative_images/**
+negative_images/*.jpg
+*~
